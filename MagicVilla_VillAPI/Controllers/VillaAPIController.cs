@@ -2,6 +2,7 @@
 using MagicVilla_VillAPI.Models;
 using MagicVilla_VillAPI.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MagicVilla_VillAPI.Controllers
 {
@@ -85,9 +86,53 @@ namespace MagicVilla_VillAPI.Controllers
 
 
 
-            //delete
+            
+        }
+        //delete
 
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+        [HttpDelete("{id:int}", Name = "DeleteVilla")]
+
+        //IActionResult is a base class for all action results in ASP.NET Core
+        //eka use karanne return type rkk dan on nathuv inna..delete karam return ekk nahne
+        public IActionResult DeleteVilla(int id)
+        {
+            if (id==0)
+            {
+                return BadRequest();
+            }
+            var villa = Villastore.villaList.FirstOrDefault(u => u.Id == id);   
+            if (villa == null)
+            {
+                return NotFound();
+            }
+            Villastore.villaList.Remove(villa);
+            return NoContent();
+
+        }
+
+
+        [HttpPut("{id:int}", Name = "UpdateVilla")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult UpdateVilla(int id,[FromBody] VillaDTO villaDTO)
+        {
+            if (villaDTO == null|| id!= villaDTO.Id)
+            {
+                return BadRequest(villaDTO);
+            }
+            
+            var villa = Villastore.villaList.FirstOrDefault(u => u.Id == villaDTO.Id);
+            villa.Name = villaDTO.Name;
+            villa.Occupancy = villaDTO.Occupancy;
+            villa.Sqft = villaDTO.Sqft;
+
+            return NoContent();
         }
     }
 }
