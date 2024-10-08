@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MagicVilla_VillAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241006205357_AddVillaTable")]
-    partial class AddVillaTable
+    [Migration("20241008061849_InitialCreate1")]
+    partial class InitialCreate1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
